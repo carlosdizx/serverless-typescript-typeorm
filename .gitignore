@@ -8,3 +8,7 @@ jspm_packages
 #build
 .build
 .build/**
+
+#others
+.idea
+.idea/**
