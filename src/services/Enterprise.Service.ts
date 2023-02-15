@@ -40,6 +40,13 @@ export class EnterpriseService{
         }else{
             query.andWhere('enterprise.documentNumber = :documentNumber', { documentNumber });
         }
+        const enterprise = await query.getOne();
+        if(!enterprise) throw new Error(`Not found enterprise`);
         return query.getOne();
     };
+
+    public static updateEnterprise = async (documentType: string, documentNumber: string, data: EnterpriseDto) => {
+        await getConnect();
+        const enterprise = EnterpriseService.findByDocumentTypeAndDocumentNumber(documentType,documentNumber);
+    }
 }
