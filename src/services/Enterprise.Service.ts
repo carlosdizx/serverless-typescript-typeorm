@@ -47,6 +47,17 @@ export class EnterpriseService{
 
     public static updateEnterprise = async (documentType: string, documentNumber: string, data: EnterpriseDto) => {
         await getConnect();
-        const enterprise = EnterpriseService.findByDocumentTypeAndDocumentNumber(documentType,documentNumber);
+        const enterprise = await EnterpriseService.findByDocumentTypeAndDocumentNumber(documentType,documentNumber);
+        if(!enterprise) throw new Error(`Not found enterprise`);
+        enterprise.name = data.name;
+        enterprise.documentType = data.documentType;
+        const isNit = data.documentType === 'NIT';
+        enterprise.documentNumber = isNit
+            ? data.documentNumber.split('-')[0]
+            : data.documentNumber;
+        enterprise.verifier = isNit
+            ? data.documentNumber.split('-')[1]
+            : "";
+        return await enterprise.save();
     }
 }

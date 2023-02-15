@@ -21,4 +21,4 @@ updateEnterprise:
   events:
     - http:
         method: patch
-        path: enterprises/{enterpriseId}
+        path: enterprises
