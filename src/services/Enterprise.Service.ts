@@ -25,44 +25,21 @@ export class EnterpriseService{
         return enterprise;
     }
 
-    public static findByDocumentNumber = async (
+    public static findByDocumentTypeAndDocumentNumber = async (
+        documentType: string,
         documentNumber: string,
-        verifier?: string,
     ) => {
         await getConnect();
         const query = Enterprise
             .createQueryBuilder('enterprise')
-            .where('enterprise.documentNumber = :documentNumber', { documentNumber });
-        if (verifier)
-            query.andWhere('enterprise.verifier = :verifier', { verifier });
+            .where('enterprise.documentType = :documentType', { documentType });
+        if (documentType === 'NIT') {
+            const data = documentNumber.split('-');
+            query.andWhere('enterprise.documentNumber = :documentNumber', {documentNumber: data[0]});
+            query.andWhere('enterprise.verifier = :verifier', {verifier: data[1]});
+        }else{
+            query.andWhere('enterprise.documentNumber = :documentNumber', { documentNumber });
+        }
         return query.getOne();
-    };
-
-    public static updateEnterprise = async (
-        enterpriseDto: EnterpriseDto,
-        documentNumber: string,
-        verifier?: string,
-    ) => {
-        await getConnect();
-        const enterprise = await EnterpriseService.findByDocumentNumber(
-            documentNumber,
-            verifier,
-        );
-        const isNit = enterpriseDto.documentType === 'NIT';
-        if (!enterprise)
-            throw new Error(
-                `Enterprise with document number ${
-                    isNit ? documentNumber.concat(`-${verifier}`) : documentNumber
-                }`,
-            );
-        enterprise.name = enterpriseDto.name;
-        enterprise.documentType = enterpriseDto.documentType;
-        enterprise.documentNumber = isNit
-            ? enterpriseDto.documentNumber.split('-')[0]
-            : enterpriseDto.documentNumber;
-        enterprise.verifier = isNit
-            ? enterpriseDto.documentNumber.split('-')[1]
-            : "";
-        return enterprise.save();
     };
 }

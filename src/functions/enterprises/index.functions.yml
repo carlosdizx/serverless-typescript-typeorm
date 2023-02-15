@@ -11,11 +11,11 @@ listEnterprises:
         method: get
         path: enterprises
 findByDocumentNumber:
-  handler: ${self:custom.prefix_module, 'src/functions/enterprises/'}update.handler
+  handler: ${self:custom.prefix_module, 'src/functions/enterprises/'}find-by-document-number.handler
   events:
     - http:
         method: get
-        path: enterprises/documentNumber/{enterpriseId}
+        path: enterprises/find
 updateEnterprise:
   handler: ${self:custom.prefix_module, 'src/functions/enterprises/'}update.handler
   events:
