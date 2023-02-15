@@ -1,14 +1,11 @@
 import {APIGatewayProxyHandler} from "aws-lambda";
-import {Enterprise} from "../../entity/Enterprise.entity";
-import connectDB from "../../common/connectiondb";
+import {EnterpriseService} from "../../services/Enterprise.Service";
 
 export const handler: APIGatewayProxyHandler = async (event) => {
-    await connectDB.initialize();
-
-    const enterprises = await Enterprise.find();
+    const result = await EnterpriseService.findAll();
 
     return {
         statusCode: 200,
-        body: JSON.stringify(enterprises)
+        body: JSON.stringify(result)
     }
 }
