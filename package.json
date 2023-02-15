@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "sls offline",
-    "deploy": "serverless deploy"
+    "deploy": "serverless deploy --verbose"
   },
   "keywords": [],
   "author": "Carlos Ernesto Diaz Basante",
