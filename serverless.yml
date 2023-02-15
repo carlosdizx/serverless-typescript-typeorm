@@ -1,0 +1,13 @@
+service: serverless-typescript-typeorm
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  - ${file(./src/functions/enterprises/index.functions.yml)}
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript
