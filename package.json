@@ -5,7 +5,8 @@
   "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "sls offline"
+    "start": "sls offline",
+    "deploy": "serverless deploy"
   },
   "keywords": [],
   "author": "Carlos Ernesto Diaz Basante",
